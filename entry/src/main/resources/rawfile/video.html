@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Video</title>
+  <style>
+    html, body { margin: 0; padding: 0; background: #000; color: #f2f2f7;
+      font-family: sans-serif; }
+    .wrap { position: relative; width: 100%; height: 150px; background: #000; overflow: hidden; }
+    video { width: 100%; height: 100%; object-fit: contain; display: block; background: #000; }
+    .ctrl { position: absolute; border: none; padding: 0; color: #fff;
+      background: rgba(0, 0, 0, 0.42); display: flex; align-items: center; justify-content: center; }
+    #toggle { top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 46px; height: 46px; border-radius: 50%; }
+    #toggle svg { width: 22px; height: 22px; fill: #fff; }
+    #fs { left: 50%; bottom: 12px; transform: translateX(-50%);
+      width: 30px; height: 30px; border-radius: 8px; }
+    #fs svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2; }
+    .wrap:fullscreen { height: 100vh; }
+  </style>
+</head>
+<body>
+  <div class="wrap" id="wrap">
+    <video id="v" src="https://www.w3schools.com/html/mov_bbb.mp4" playsinline></video>
+    <button class="ctrl" id="toggle" aria-label="Play"></button>
+    <button class="ctrl" id="fs" aria-label="Fullscreen">
+      <svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <script>
+    const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    const ICON_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
+
+    const v = document.getElementById('v');
+    const wrap = document.getElementById('wrap');
+    const toggle = document.getElementById('toggle');
+    const fs = document.getElementById('fs');
+
+    toggle.innerHTML = ICON_PLAY;
+    toggle.addEventListener('click', function () { v.paused ? v.play() : v.pause(); });
+    v.addEventListener('play', function () { toggle.innerHTML = ICON_PAUSE; });
+    v.addEventListener('pause', function () { toggle.innerHTML = ICON_PLAY; });
+    v.addEventListener('ended', function () { toggle.innerHTML = ICON_PLAY; });
+
+    fs.addEventListener('click', function () {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        wrap.requestFullscreen();
+      }
+    });
+  </script>
+</body>
+</html>
